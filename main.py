@@ -1,4 +1,5 @@
 # import functions from necessary modules
+# 0000000000000000000000000000000000110000001010000000111110000000101000000110000000000000000000000000 10
 from random import randint
 from math import trunc
 from copy import deepcopy
@@ -74,7 +75,9 @@ def run_conway(grid, final_grid):
                     final_grid[row_idx][idx] = "⬜"
         
         grid = deepcopy(final_grid) # set grid to final grid
-        time.sleep(0.1)
+        cont = input()
+        if cont == "stop":
+            break
 
 
 while True:
@@ -109,15 +112,22 @@ while True:
         while True:
             final_grid = deepcopy(grid)
             display_grid()
+            
             to_switch = input("Type save to stop editing.\nT the grid coordinate (letter first) here: ").lower().strip()
             if to_switch == "save":
                 break
-            coord_char = to_switch[0]
+            try: coord_char = to_switch[0]
+            except IndexError:
+                os.system('cls')
+                print("Please enter a valid grid coordinate.")
+                continue
             try: coord_num = int(to_switch[1:])
             except ValueError: 
+                os.system('cls')
                 print("Please enter a valid grid coordinate.") 
                 continue
-            if len(to_switch) < 2 or len(to_switch) > 3 or coord_char not in alphabet or coord_num > 26 or coord_num < 1:
+            if (len(to_switch) < 2 or len(to_switch) > 3 or coord_char not in alphabet or coord_num > 26 or coord_num < 1):
+                os.system('cls')
                 print("Please enter a valid grid coordinate.")
                 continue
             row = letter_to_number[coord_char] + 1
@@ -125,6 +135,7 @@ while True:
             if grid[row][col] == "⬛":
                 grid[row][col] = "⬜"
             else: grid[row][col] = "⬛"
+            os.system('cls')
         grid_string = []
         for row in grid:
             for cell in row:
@@ -134,14 +145,28 @@ while True:
                     grid_string.append("1")
         grid_string.append(f" {grid_size}")
         print(f"Saved! \nSEED: {''.join(grid_string)}")
+        final_grid = deepcopy(grid)
+        display_grid()
     elif choice == "l":
-        seed = input("Please input seed here: ")
-        size = seed[-2:].strip()
-        grid_size = int(size)
-        seed = [list(seed[i:i+5]) for i in range(0, len(seed)-2, 5)]
+        while True:
+            seed = input("Please input seed here: ")
+            size = seed[-2:].strip()
+            seed = seed[:-2].strip()
+            try:
+                grid_size = int(size)
+                if int(seed) % grid_size != 0:
+                    print("Please enter a valid seed!")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid seed!")
+                continue
+        seed = [seed[i:i+grid_size] for i in range(0, len(seed), grid_size)]
         grid = [[ "⬛" for i in range(grid_size)] for j in range(grid_size)]
+
         for row_index, row in enumerate(seed):
             for cell_index, cell in enumerate(row):
+                print(f'{row_index} and {cell_index}')
                 if cell == "0":
                     grid[row_index][cell_index] = "⬛"
                 else:
