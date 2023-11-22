@@ -1,8 +1,8 @@
 # import functions from necessary modules
 from random import randint
 from math import trunc
-from time import sleep
 from copy import deepcopy
+import time
 import os
 
 generate_row = []
@@ -72,24 +72,23 @@ def run_conway(grid, final_grid):
                     cell = "⬜"
                 elif cell == "⬛" and alive_neighbors == 3: # if a dead cell as 3 alive neighbours, it becomes alive
                     final_grid[row_idx][idx] = "⬜"
-
+        
         grid = deepcopy(final_grid) # set grid to final grid
-        pc = input() # allows user to advance frame by frame
+        time.sleep(0.1)
 
 
 while True:
     display_grid()
 
-    choice = input(f"Write r to generate a random pattern,\nWrite e to open the editor,\nWrite l to load a pattern: ").lower().strip()
+    choice = input(f"Write r to generate a random pattern,\nWrite e to open the editor,\nWrite l to load a pattern,\nWrite run to run the simulation: ").lower().strip()
 
     if choice == "r":
+        grid = [[ "⬛" for i in range(grid_size)] for j in range(grid_size)]
         for i in range(randint(trunc((grid_size * grid_size) / 8), trunc((grid_size * grid_size) / 4))):
             row = randint(1,grid_size)
             col = randint(1,grid_size)
             grid[row - 1][col - 1] = "⬜"
         final_grid = deepcopy(grid)
-
-        run_conway(grid, final_grid)
     if choice == "e" and grid_size <= 26:
         new_row = ["  "]
         new_row_2 = ["  "]
@@ -148,5 +147,7 @@ while True:
                 else:
                     grid[row_index][cell_index] = "⬜"
         final_grid = deepcopy(grid)
+    elif choice == "run":
+        run_conway(grid, final_grid)
     else:
         pass
