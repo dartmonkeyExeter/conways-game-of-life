@@ -132,10 +132,16 @@ if choice == "e" and grid_size <= 26:
                 grid_string.append("0")
             elif cell == "⬜":
                 grid_string.append("1")
-    grid_string.append(f"{grid_size}")
+    grid_string.append(f" {grid_size}")
     print(f"Saved! \nSEED: {''.join(grid_string)}")
 elif choice == "l":
+    seed = input("Please input seed here: ")
+    size = seed[-2:].strip()
+    seed = seed[:-2].strip()
+    print(size)
+    print(seed)
     
+
 else:
     pass
 
