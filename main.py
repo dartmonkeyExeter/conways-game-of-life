@@ -125,6 +125,17 @@ if choice == "e" and grid_size <= 26:
         if grid[row][col] == "⬛":
             grid[row][col] = "⬜"
         else: grid[row][col] = "⬛"
+    grid_string = []
+    for row in grid:
+        for cell in row:
+            if cell == "⬛":
+                grid_string.append("0")
+            elif cell == "⬜":
+                grid_string.append("1")
+    grid_string.append(f"{grid_size}")
+    print(f"Saved! \nSEED: {''.join(grid_string)}")
+elif choice == "l":
+    
 else:
     pass
 
