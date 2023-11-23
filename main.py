@@ -1,5 +1,4 @@
 # import functions from necessary modules
-# 0000000000000000000000000000000000110000001010000000111110000000101000000110000000000000000000000000 10
 from random import randint
 from math import trunc
 from copy import deepcopy
@@ -75,7 +74,7 @@ def run_conway(grid, final_grid):
                     final_grid[row_idx][idx] = "⬜"
         
         grid = deepcopy(final_grid) # set grid to final grid
-        cont = input()
+        cont = input("Press enter to move to the next frame of the simulation, write stop to end the simulation.\n").strip().lower()
         if cont == "stop":
             break
 
@@ -83,7 +82,7 @@ def run_conway(grid, final_grid):
 while True:
     display_grid()
 
-    choice = input(f"Write r to generate a random pattern,\nWrite e to open the editor,\nWrite l to load a pattern,\nWrite run to run the simulation: ").lower().strip()
+    choice = input(f"Write r to generate a random pattern,\nWrite e to open the editor,\nWrite l to load a pattern,\nWrite g to change grid size,\nWrite run to run the simulation: ").lower().strip()
 
     if choice == "r":
         grid = [[ "⬛" for i in range(grid_size)] for j in range(grid_size)]
@@ -149,7 +148,7 @@ while True:
         display_grid()
     elif choice == "l":
         while True:
-            seed = input("Please input seed here: ")
+            seed = input("Please input seed here (right click to paste): ")
             size = seed[-2:].strip()
             seed = seed[:-2].strip()
             try:
@@ -172,6 +171,18 @@ while True:
                 else:
                     grid[row_index][cell_index] = "⬜"
         final_grid = deepcopy(grid)
+    elif choice == "g":
+        while True:
+            grid_size = input("Please write a new grid size: ")
+            try:
+                grid_size = int(grid_size)
+            except ValueError:
+                print("Please enter a valid grid size.")
+                continue
+            grid = [[ "⬛" for i in range(grid_size)] for j in range(grid_size)]
+            final_grid = deepcopy(grid)
+            print("New grid size set!")
+            break
     elif choice == "run":
         run_conway(grid, final_grid)
     else:
